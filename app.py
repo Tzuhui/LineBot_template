@@ -11,8 +11,8 @@ from linebot.models import *
 app = Flask(__name__)
 
 
-line_bot_api = LineBotApi('grAy28hMhuIg0OjJKwgDN2Tc5QejSD5okD/xFv2sHbeAOlRmx57coV2fw/fGj8Emk7vy3OUIL33Q5wymN5ZEx78MrzNsYjyTKw0BDeHOxw4p9r39e/XW1nU4F45u007aS+VGxUsZPCTtPf350O13ZQdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('e6134a76f878184a9b6df80f6d2a9db3')
+line_bot_api = LineBotApi('YOUR_Channel_access_token')
+handler = WebhookHandler('YOUR_Channel_secret')
 
 @app.route("/", methods=['GET'])
 def hello():
@@ -41,29 +41,25 @@ def handle_message(event):
     #print(type(msg))
     msg = msg.encode('utf-8')  
     if event.message.text == "文字":
-        print("文字get")
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
     elif event.message.text == "貼圖":
-        print("貼圖get")
         line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id=1, sticker_id=2))
     elif event.message.text == "圖片":
-        print("圖片get")
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://agirls.aotter.net/media/20f2a623-d960-4903-9e6c-1d809586785a.jpg', preview_image_url='https://agirls.aotter.net/media/20f2a623-d960-4903-9e6c-1d809586785a.jpg'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='圖片網址', preview_image_url='圖片網址'))
     elif event.message.text == "影片":
-        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=aUiMaz4BNKw', preview_image_url='https://i.ytimg.com/vi/GNnM-LSa5OQ/maxresdefault.jpg'))
+        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='影片網址', preview_image_url='預覽圖片網址'))
     elif event.message.text == "音訊":
-        line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url='https://www.youtube.com/watch?v=aUiMaz4BNKw', duration=100000))
+        line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url='音訊網址', duration=100000))
     elif event.message.text == "位置":
-        print("位置get")
         line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='my location', address='Tainan', latitude=22.994821, longitude=120.196452))
     elif event.message.text == "位置2":
         imagemap_message = ImagemapSendMessage(
-                        base_url='https://test.mitseng.com/image/unnamed',
+                        base_url='',
                         alt_text='this is an imagemap',
                         base_size=BaseSize(height=520, width=520),
                         actions=[
                             URIImagemapAction(
-                                link_uri='https://test.mitseng.com/',
+                                link_uri='',
                                 area=ImagemapArea(
                                     x=174, y=65, width=707, height=416
                                 )
@@ -77,14 +73,13 @@ def handle_message(event):
                         ]
                     )
         line_bot_api.reply_message(event.reply_token,imagemap_message)
-    elif event.message.text == "樣板":
-        print("TEST1")       
+    elif event.message.text == "樣板":    
         buttons_template = TemplateSendMessage(
         alt_text='目錄 template',
         template=ButtonsTemplate(
             title='Template-樣板介紹',
             text='Template分為四種，也就是以下四種：',
-            thumbnail_image_url='https://i.ytimg.com/vi/GNnM-LSa5OQ/maxresdefault.jpg',
+            thumbnail_image_url='圖片網址',
             actions=[
                 MessageTemplateAction(
                     label='Buttons Template',
@@ -106,14 +101,13 @@ def handle_message(event):
         )
     )
         line_bot_api.reply_message(event.reply_token, buttons_template)
-    elif event.message.text == "Buttons Template":
-        print("TEST")       
+    elif event.message.text == "Buttons Template":       
         buttons_template = TemplateSendMessage(
         alt_text='Buttons Template',
         template=ButtonsTemplate(
             title='這是ButtonsTemplate',
             text='ButtonsTemplate可以傳送text,uri',
-            thumbnail_image_url='https://i.ytimg.com/vi/GNnM-LSa5OQ/maxresdefault.jpg',
+            thumbnail_image_url='圖片網址',
             actions=[
                 MessageTemplateAction(
                     label='ButtonsTemplate',
@@ -121,7 +115,7 @@ def handle_message(event):
                 ),
                 URITemplateAction(
                     label='VIDEO1',
-                    uri='https://www.youtube.com/watch?v=ty1NTsWOm0A'
+                    uri='影片網址'
                 ),
                 PostbackTemplateAction(
                 label='postback',
@@ -139,7 +133,7 @@ def handle_message(event):
         template=CarouselTemplate(
         columns=[
             CarouselColumn(
-                thumbnail_image_url='https://3.bp.blogspot.com/-aRzn2Zvku0s/V2z8_bpnn3I/AAAAAAAAeFg/aCwg2FzpEmkRvFUtn0yWI_ATDZa2myzjACLcB/s1600/LINE%2B%25E7%2586%258A%25E5%25A4%25A7%25E8%25BE%25B2%25E5%25A0%25B4.jpg',
+                thumbnail_image_url='圖片網址',
                 title='this is menu1',
                 text='description1',
                 actions=[
@@ -154,12 +148,12 @@ def handle_message(event):
                     ),
                     URITemplateAction(
                         label='uri1',
-                        uri='http://example.com/1'
+                        uri='網址'
                     )
                 ]
             ),
             CarouselColumn(
-                thumbnail_image_url='https://prtimes.jp/i/1594/363/resize/d1594-363-949581-1.jpg',
+                thumbnail_image_url='圖片網址',
                 title='this is menu2',
                 text='description2',
                 actions=[
@@ -174,7 +168,7 @@ def handle_message(event):
                     ),
                     URITemplateAction(
                         label='連結2',
-                        uri='http://example.com/2'
+                        uri='網址'
                     )
                 ]
             )
@@ -190,9 +184,10 @@ def handle_message(event):
             title='這是ConfirmTemplate',
             text='這就是ConfirmTemplate,用於兩種按鈕選擇',
             actions=[                              
-                MessageTemplateAction(
+                PostbackTemplateAction(
                     label='Y',
-                    text='Y'
+                    text='Y',
+                    data='action=buy&itemid=1'
                 ),
                 MessageTemplateAction(
                     label='N',
@@ -205,11 +200,11 @@ def handle_message(event):
     elif event.message.text == "Image Carousel":
         print("Image Carousel")       
         Image_Carousel = TemplateSendMessage(
-        alt_text='目錄 template',
+        alt_text='Image Carousel template',
         template=ImageCarouselTemplate(
         columns=[
             ImageCarouselColumn(
-                image_url='https://prtimes.jp/i/1594/363/resize/d1594-363-949581-1.jpg',
+                image_url='圖片網址',
                 action=PostbackTemplateAction(
                     label='postback1',
                     text='postback text1',
@@ -217,7 +212,7 @@ def handle_message(event):
                 )
             ),
             ImageCarouselColumn(
-                image_url='https://3.bp.blogspot.com/-aRzn2Zvku0s/V2z8_bpnn3I/AAAAAAAAeFg/aCwg2FzpEmkRvFUtn0yWI_ATDZa2myzjACLcB/s1600/LINE%2B%25E7%2586%258A%25E5%25A4%25A7%25E8%25BE%25B2%25E5%25A0%25B4.jpg',
+                image_url='圖片網址',
                 action=PostbackTemplateAction(
                     label='postback2',
                     text='postback text2',
